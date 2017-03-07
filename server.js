@@ -3,12 +3,10 @@ import { apolloServer } from 'apollo-server';
 import schema from './data/schema';
 import Resolvers from './data/resolvers';
 
-
 var cors = require('cors');
-
-const GRAPHQL_PORT = 8080;
-
 const graphQLServer = express();
+graphQLServer.set('port', (process.env.PORT || 5000));
+
 graphQLServer.use(cors());
 graphQLServer.use('/graphql', apolloServer({
   graphiql: true,
@@ -19,6 +17,6 @@ graphQLServer.use('/graphql', apolloServer({
   allowUndefinedInResolver : false,
   printErrors : true,
 }));
-graphQLServer.listen(GRAPHQL_PORT, () => console.log(
+graphQLServer.listen(graphQLServer.get('port'), () => console.log(
   `GraphQL Server is now running on http://localhost:${GRAPHQL_PORT}/graphql`
 ));
